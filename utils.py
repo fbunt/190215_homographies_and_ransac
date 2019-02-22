@@ -258,6 +258,22 @@ def descriptor_match_filtered(dList1, dList2, r=0.5):
                     # Swap
                     mn, mns = mns, mn
                     mnj, mnsj = mnsj, mnj
-        if mn > r * mns:
+        if mn < r * mns:
             matches.append((i, mnj))
     return matches
+
+
+def extract_matches(img0, img1):
+    H0 = harris_response(img0)
+    H1 = harris_response(img1)
+    kpts0 = anms_kdtree(H0, n=100)
+    kpts1 = anms_kdtree(H1, n=100)
+    dList1 = descriptors(img0, kpts0)
+    dList2 = descriptors(img1, kpts1)
+    imatches = descriptor_match_filtered(dList1, dList2)
+    x = []
+    xp = []
+    for i, j in imatches:
+        x.append((kpts0[0][i], kpts0[1][i]))
+        xp.append((kpts1[0][j], kpts1[1][j]))
+    return x, xp
