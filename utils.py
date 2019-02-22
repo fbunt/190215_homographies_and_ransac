@@ -255,7 +255,7 @@ def descriptor_match_filtered(dList1,dList2,r=0.5):
                     # Swap
                     mn, mns = mns, mn
                     mnj, mnsj = mnsj, mnj
-        if mn > r*mns:
+        if mn < r*mns:
             matches.append((i, mnj))
 
     return matches
